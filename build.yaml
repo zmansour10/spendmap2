@@ -1,0 +1,13 @@
+targets:
+  $default:
+    builders:
+      json_serializable:
+        options:
+          # Creates fromJson and toJson methods
+          explicit_to_json: true
+          include_if_null: false
+      riverpod_generator:
+        options:
+          # Riverpod code generation options
+          riverpod_generator:
+            generate_riverpod_annotation: true

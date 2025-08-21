@@ -43,3 +43,28 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+
+# Code generation
+*.g.dart
+*.freezed.dart
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.production
+
+# Database files (if you store them locally for testing)
+*.db
+*.sqlite
+*.sqlite3
+
+# Coverage
+coverage/
+
+# Fastlane
+**/fastlane/report.xml
+**/fastlane/Preview.html
+**/fastlane/screenshots
+**/fastlane/test_output

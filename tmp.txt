@@ -1,0 +1,69 @@
+name: spendmap2
+description: "A personal expense tracker app built with Flutter and Riverpod."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # State Management
+  flutter_riverpod: ^2.6.1
+  riverpod_annotation: ^2.6.1
+
+  # Database
+  sqflite: ^2.4.2
+  path_provider: ^2.1.5
+  path: ^1.9.1
+  
+  # Charts and Visualization
+  fl_chart: ^1.0.0
+
+  # Utilities
+  intl: ^0.20.2
+  shared_preferences: ^2.5.3
+  uuid: ^4.5.1
+
+  # File Operations
+  file_picker: ^10.3.2
+  csv: ^6.0.0
+
+  # UI Components
+  flutter_colorpicker: ^1.1.0
+
+  # Localization
+  flutter_localizations:
+    sdk: flutter
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^6.0.0
+
+  # Code Generation
+  riverpod_generator: ^2.6.5
+  build_runner: ^2.5.4
+  json_annotation: ^4.9.0
+  json_serializable: ^6.9.5
+  freezed: ^3.1.0
+
+  # Testing
+  mockito: ^5.4.6
+
+
+flutter:
+
+  uses-material-design: true
+
+  # enable localization generation
+  generate: true  
+
+
