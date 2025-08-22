@@ -18,7 +18,7 @@ class AppTheme {
         primary: AppColors.primary,
         secondary: AppColors.secondary,
         surface: AppColors.surfaceLight,
-        background: AppColors.backgroundLight,
+        // background: AppColors.backgroundLight,
         error: AppColors.error,
       ),
       
@@ -167,7 +167,7 @@ class AppTheme {
         primary: AppColors.primaryLight,
         secondary: AppColors.secondaryLight,
         surface: AppColors.surfaceDark,
-        background: AppColors.backgroundDark,
+        //background: AppColors.backgroundDark,
         error: AppColors.error,
       ),
       
