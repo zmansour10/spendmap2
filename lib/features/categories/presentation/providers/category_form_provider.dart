@@ -163,7 +163,7 @@ class CategoryForm extends _$CategoryForm {
   }
 
   /// Validate name (synchronous version for immediate feedback)
-  String? _validateNameSync(String name) {
+  String? _validateNameSync(String name){
     if (name.isEmpty) {
       return 'Category name is required';
     }

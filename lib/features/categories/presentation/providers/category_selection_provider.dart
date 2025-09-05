@@ -199,7 +199,6 @@ class CategorySelectionState {
   }
 
   // Helper getters
-  // Helper getters
  bool get hasSelection => selectedCategories.isNotEmpty;
  
  int get selectionCount => selectedCategories.length;
