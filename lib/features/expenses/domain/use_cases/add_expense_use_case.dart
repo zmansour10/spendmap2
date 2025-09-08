@@ -21,8 +21,8 @@ class AddExpenseUseCase {
 
       // Additional business logic validation
       final businessValidation = _validateBusinessRules(expense);
-      if (businessValidation != null) {
-        return AddExpenseResult.failure(businessValidation);
+      if (businessValidation != null) { // null means validation passed
+        return AddExpenseResult.failure(businessValidation); 
       }
 
       // Create the expense
