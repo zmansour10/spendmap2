@@ -116,4 +116,22 @@ abstract class ExpenseRepository {
   // Recent and favorites
   Future<List<ExpenseEntity>> getRecentExpenses({int limit = 10});
   Future<List<ExpenseEntity>> getSimilarExpenses(ExpenseEntity expense, {int limit = 5});
+
+   /// Get expenses with pagination and filtering
+  Future<List<ExpenseEntity>> getExpenses({
+    int offset = 0,
+    int limit = 20,
+    String? searchQuery,
+    int? categoryId,
+    DateTime? startDate,
+    DateTime? endDate,
+    double? minAmount,
+    double? maxAmount,
+    List<String>? tags,
+    String? sortBy,
+    bool ascending = false,
+  });
+
+  /// Bulk update category
+  Future<void> bulkUpdateCategory(List<int> expenseIds, int newCategoryId);
 }

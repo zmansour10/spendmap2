@@ -587,6 +587,14 @@ class ExpenseRepositoryImpl implements ExpenseRepository {
     }
   }
 
+// @override
+//  Future<void> bulkDeleteExpenses(List<int> expenseIds) async {
+//    for (final id in expenseIds) {
+//      await deleteExpense(id);
+//    }
+//  }
+
+
   @override
   Future<void> deleteExpensesByCategory(int categoryId) async {
     try {
@@ -677,6 +685,13 @@ class ExpenseRepositoryImpl implements ExpenseRepository {
     }
   }
 
+// @override
+//  Future<List<ExpenseEntity>> getRecentExpenses({int limit = 10}) async {
+//    final expenses = await getAllExpenses();
+//    expenses.sort((a, b) => b.date.compareTo(a.date));
+//    return expenses.take(limit).toList();
+//  }
+
   @override
   Future<List<ExpenseEntity>> getSimilarExpenses(ExpenseEntity expense, {int limit = 5}) async {
     try {
@@ -713,6 +728,103 @@ class ExpenseRepositoryImpl implements ExpenseRepository {
       throw ExpenseRepositoryException('Failed to get similar expenses', e);
     }
   }
+
+  @override
+  Future<List<ExpenseEntity>> getExpenses({
+    int offset = 0,
+    int limit = 20,
+    String? searchQuery,
+    int? categoryId,
+    DateTime? startDate,
+    DateTime? endDate,
+    double? minAmount,
+    double? maxAmount,
+    List<String>? tags,
+    String? sortBy,
+    bool ascending = false,
+  }) async {
+    // For now, use getAllExpenses and filter manually
+    final allExpenses = await getAllExpenses();
+    
+    // Apply filters
+    var filteredExpenses = allExpenses.where((expense) {
+      // Search filter
+      if (searchQuery != null && searchQuery.isNotEmpty) {
+        if (!expense.description.toLowerCase().contains(searchQuery.toLowerCase())) {
+          return false;
+        }
+      }
+      
+      // Category filter
+      if (categoryId != null && expense.categoryId != categoryId) {
+        return false;
+      }
+      
+      // Date filters
+      if (startDate != null && expense.date.isBefore(startDate)) {
+        return false;
+      }
+      if (endDate != null && expense.date.isAfter(endDate)) {
+       return false;
+     }
+     
+     // Amount filters
+     if (minAmount != null && expense.amount < minAmount) {
+       return false;
+     }
+     if (maxAmount != null && expense.amount > maxAmount) {
+       return false;
+     }
+     
+     return true;
+   }).toList();
+   
+   // Sort expenses
+   filteredExpenses.sort((a, b) {
+     int result;
+     switch (sortBy) {
+       case 'amount':
+         result = a.amount.compareTo(b.amount);
+         break;
+       case 'category':
+         result = a.categoryId.compareTo(b.categoryId);
+         break;
+       case 'description':
+         result = a.description.compareTo(b.description);
+         break;
+       case 'date':
+       default:
+         result = a.date.compareTo(b.date);
+         break;
+     }
+     return ascending ? result : -result;
+   });
+   
+   // Apply pagination
+   final startIndex = offset.clamp(0, filteredExpenses.length);
+   final endIndex = (offset + limit).clamp(0, filteredExpenses.length);
+   
+   return filteredExpenses.sublist(startIndex, endIndex);
+ }
+
+ @override
+ Future<void> bulkUpdateCategory(List<int> expenseIds, int newCategoryId) async {
+   for (final id in expenseIds) {
+     final expense = await getExpenseById(id);
+     if (expense != null) {
+       final updatedExpense = ExpenseEntity(
+         id: expense.id,
+         amount: expense.amount,
+         description: expense.description,
+         categoryId: newCategoryId,
+         date: expense.date,
+         createdAt: expense.createdAt,
+         updatedAt: DateTime.now(),
+       );
+       await updateExpense(updatedExpense);
+     }
+   }
+ }
 }
 
 /// Custom exception for expense repository operations
