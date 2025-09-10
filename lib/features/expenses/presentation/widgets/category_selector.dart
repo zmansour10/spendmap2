@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../categories/domain/entities/category_entity.dart';
 import '../../../categories/presentation/providers/category_provider.dart';
+import '../../../categories/presentation/screens/category_management_screen.dart';
 
 class CategorySelector extends ConsumerWidget {
   const CategorySelector({
@@ -102,13 +103,17 @@ class CategorySelector extends ConsumerWidget {
     );
   }
 
+  // void _showCreateCategoryDialog(BuildContext context) {
+  //   TODO: Navigate to category creation screen or show dialog
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     const SnackBar(
+  //       content: Text('Category creation will be implemented in the next phase'),
+  //     ),
+  //   );
+  // }
+
   void _showCreateCategoryDialog(BuildContext context) {
-    // TODO: Navigate to category creation screen or show dialog
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Category creation will be implemented in the next phase'),
-      ),
-    );
+    Navigator.pushNamed(context, CategoryManagementScreen.routeName);
   }
 }
 
