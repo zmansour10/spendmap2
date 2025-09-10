@@ -54,20 +54,30 @@ class DatabaseHelper {
 
   // Configure database settings
   Future<void> _configureDatabase(Database db) async {
-    // Enable foreign key constraints
-    await db.execute('PRAGMA foreign_keys = ON');
+    try {
+      // Enable foreign key constraints
+      await db.execute('PRAGMA foreign_keys = ON');
 
-    // Set journal mode to WAL for better performance
-    await db.execute('PRAGMA journal_mode = WAL');
+      // Try to set journal mode to WAL, fallback to DELETE if fails
+      try {
+        await db.execute('PRAGMA journal_mode = WAL');
+      } catch (e) {
+        // WAL mode might not work on some platforms, use DELETE mode
+        await db.execute('PRAGMA journal_mode = DELETE');
+      }
 
-    // Set synchronous mode to NORMAL for better performance
-    await db.execute('PRAGMA synchronous = NORMAL');
+      // Set synchronous mode to NORMAL for better performance
+      await db.execute('PRAGMA synchronous = NORMAL');
 
-    // Set cache size (negative value means KB)
-    await db.execute('PRAGMA cache_size = -2000');
+      // Set cache size (negative value means KB)
+      await db.execute('PRAGMA cache_size = -2000');
 
-    // Set temp store to memory
-    await db.execute('PRAGMA temp_store = MEMORY');
+      // Set temp store to memory
+      await db.execute('PRAGMA temp_store = MEMORY');
+    } catch (e) {
+      // Log the error but don't fail the database initialization
+      // TODO: For a production app, you would use a proper logging framework here
+    }
   }
 
   // Create database tables

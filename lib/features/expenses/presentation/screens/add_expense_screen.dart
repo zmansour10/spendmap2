@@ -6,7 +6,7 @@ import '../../domain/entities/expense_entity.dart';
 import '../../../shared/widgets/app_scaffold.dart';
 import '../../../shared/widgets/loading_overlay.dart';
 
-class AddExpenseScreen extends ConsumerWidget {
+class AddExpenseScreen extends ConsumerStatefulWidget {
   const AddExpenseScreen({
     super.key,
     this.initialExpense,
@@ -23,25 +23,40 @@ class AddExpenseScreen extends ConsumerWidget {
   static const routeName = '/add-expense';
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<AddExpenseScreen> createState() => _AddExpenseScreenState();
+}
+
+class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
+  bool _isInitialized = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the form once when the widget is first created
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!_isInitialized) {
+        final formNotifier = ref.read(expenseFormProvider.notifier);
+        if (widget.initialExpense != null) {
+          formNotifier.initializeForEdit(widget.initialExpense!);
+        } else {
+          formNotifier.initializeForCreate(
+            templateAmount: widget.templateAmount,
+            templateDescription: widget.templateDescription,
+            templateCategoryId: widget.templateCategoryId,
+          );
+        }
+        _isInitialized = true;
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final formState = ref.watch(expenseFormProvider);
     final formNotifier = ref.read(expenseFormProvider.notifier);
 
-    // Initialize form when screen loads
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (initialExpense != null) {
-        formNotifier.initializeForEdit(initialExpense!);
-      } else {
-        formNotifier.initializeForCreate(
-          templateAmount: templateAmount,
-          templateDescription: templateDescription,
-          templateCategoryId: templateCategoryId,
-        );
-      }
-    });
-
     return AppScaffold(
-      title: initialExpense != null ? 'Edit Expense' : 'Add Expense',
+      title: widget.initialExpense != null ? 'Edit Expense' : 'Add Expense',
       showBackButton: true,
       actions: [
         if (formState.isDirty)
@@ -54,7 +69,7 @@ class AddExpenseScreen extends ConsumerWidget {
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
                 : Text(
-                    initialExpense != null ? 'Update' : 'Save',
+                    widget.initialExpense != null ? 'Update' : 'Save',
                     style: TextStyle(
                       color: formNotifier.canSave
                           ? Theme.of(context).primaryColor
@@ -167,7 +182,7 @@ class AddExpenseScreen extends ConsumerWidget {
                                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                                 ),
                               )
-                            : Text(initialExpense != null ? 'Update Expense' : 'Save Expense'),
+                            : Text(widget.initialExpense != null ? 'Update Expense' : 'Save Expense'),
                       ),
                     ),
                   ],
@@ -193,7 +208,7 @@ class AddExpenseScreen extends ConsumerWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              initialExpense != null 
+              widget.initialExpense != null 
                   ? 'Expense updated successfully'
                   : 'Expense saved successfully',
             ),

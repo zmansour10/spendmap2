@@ -352,7 +352,7 @@ class ExpenseLocalDataSource {
          e.category_id,
          c.name as category_name,
          c.icon_code as category_icon,
-         c.color as category_color
+         c.color_value as category_color
        FROM ${DatabaseTables.expenses} e
        INNER JOIN ${DatabaseTables.categories} c ON e.category_id = c.id
        ${whereConditions.isNotEmpty ? 'WHERE ${whereConditions.join(' AND ')}' : ''}
@@ -383,7 +383,7 @@ class ExpenseLocalDataSource {
          e.category_id,
          c.name as category_name,
          c.icon_code as category_icon,
-         c.color as category_color
+         c.color_value as category_color
        FROM ${DatabaseTables.expenses} e
        INNER JOIN ${DatabaseTables.categories} c ON e.category_id = c.id
        WHERE e.id = ? AND c.is_active = 1
@@ -484,7 +484,7 @@ class ExpenseLocalDataSource {
          c.id as category_id,
          c.name as category_name,
          c.icon_code as category_icon,
-         c.color as category_color,
+         c.color_value as category_color,
          COALESCE(SUM(e.amount), 0) as total_amount,
          COUNT(e.id) as expense_count,
          COALESCE(AVG(e.amount), 0) as average_amount,
@@ -496,7 +496,7 @@ class ExpenseLocalDataSource {
        LEFT JOIN ${DatabaseTables.expenses} e ON c.id = e.category_id
        CROSS JOIN total_expenses
        WHERE ${whereConditions.join(' AND ')}
-       GROUP BY c.id, c.name, c.icon_code, c.color, total_expenses.total
+       GROUP BY c.id, c.name, c.icon_code, c.color_value, total_expenses.total
        HAVING COUNT(e.id) > 0
        ORDER BY total_amount DESC
      ''';
@@ -586,7 +586,7 @@ class ExpenseLocalDataSource {
        c.id as category_id,
        c.name as category_name,
        c.icon_code as category_icon,
-       c.color as category_color,
+       c.color_value as category_color,
        COALESCE(SUM(e.amount), 0) as total_amount,
        COUNT(e.id) as expense_count,
        COALESCE(AVG(e.amount), 0) as average_amount,
@@ -599,7 +599,7 @@ class ExpenseLocalDataSource {
        AND strftime('%Y-%m', datetime(e.date/1000, 'unixepoch')) = ?
      CROSS JOIN month_total
      WHERE c.is_active = 1
-     GROUP BY c.id, c.name, c.icon_code, c.color, month_total.total
+     GROUP BY c.id, c.name, c.icon_code, c.color_value, month_total.total
      HAVING COUNT(e.id) > 0
      ORDER BY total_amount DESC
    ''';

@@ -86,6 +86,7 @@ class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
       floatingActionButton: _isSelectionMode
           ? null
           : FloatingActionButton.extended(
+              heroTag: "addExpenseFAB",
               onPressed: _navigateToAddExpense,
               icon: const Icon(Icons.add),
               label: const Text('Add Expense'),

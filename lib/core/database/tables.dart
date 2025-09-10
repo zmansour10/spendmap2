@@ -11,7 +11,7 @@ class DatabaseTables {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
       icon_code INTEGER NOT NULL,
-      color INTEGER NOT NULL,
+      color_value INTEGER NOT NULL,
       is_default INTEGER NOT NULL DEFAULT 0,
       is_active INTEGER NOT NULL DEFAULT 1,
       created_at INTEGER NOT NULL,
@@ -74,61 +74,61 @@ class DatabaseTables {
     {
       'name': 'Food & Dining',
       'icon_code': 0xe57f, // Icons.restaurant
-      'color': 0xFFE57373, // Red
+      'color_value': 0xFFE57373, // Red
       'is_default': 1,
     },
     {
       'name': 'Transportation',
       'icon_code': 0xe571, // Icons.directions_car
-      'color': 0xFF64B5F6, // Blue
+      'color_value': 0xFF64B5F6, // Blue
       'is_default': 1,
     },
     {
       'name': 'Shopping',
       'icon_code': 0xe59c, // Icons.shopping_bag
-      'color': 0xFFBA68C8, // Purple
+      'color_value': 0xFFBA68C8, // Purple
       'is_default': 1,
     },
     {
       'name': 'Entertainment',
       'icon_code': 0xe404, // Icons.movie
-      'color': 0xFFFFB74D, // Orange
+      'color_value': 0xFFFFB74D, // Orange
       'is_default': 1,
     },
     {
       'name': 'Bills & Utilities',
       'icon_code': 0xe8e8, // Icons.receipt
-      'color': 0xFF4DB6AC, // Teal
+      'color_value': 0xFF4DB6AC, // Teal
       'is_default': 1,
     },
     {
       'name': 'Healthcare',
       'icon_code': 0xe57e, // Icons.local_hospital
-      'color': 0xFF81C784, // Green
+      'color_value': 0xFF81C784, // Green
       'is_default': 1,
     },
     {
       'name': 'Education',
       'icon_code': 0xe80c, // Icons.school
-      'color': 0xFF7986CB, // Indigo
+      'color_value': 0xFF7986CB, // Indigo
       'is_default': 1,
     },
     {
       'name': 'Travel',
       'icon_code': 0xe539, // Icons.flight
-      'color': 0xFFF06292, // Pink
+      'color_value': 0xFFF06292, // Pink
       'is_default': 1,
     },
     {
       'name': 'Personal Care',
       'icon_code': 0xe8cc, // Icons.spa
-      'color': 0xFFAED581, // Light Green
+      'color_value': 0xFFAED581, // Light Green
       'is_default': 1,
     },
     {
       'name': 'Other',
       'icon_code': 0xe8b6, // Icons.more_horiz
-      'color': 0xFF90A4AE, // Blue Grey
+      'color_value': 0xFF90A4AE, // Blue Grey
       'is_default': 1,
     },
   ];
@@ -187,7 +187,7 @@ class DatabaseTables {
       c.id as category_id,
       c.name as category_name,
       c.icon_code as category_icon,
-      c.color as category_color
+      c.color_value as category_color
     FROM $expenses e
     INNER JOIN $categories c ON e.category_id = c.id
     WHERE c.is_active = 1
@@ -200,7 +200,7 @@ class DatabaseTables {
       strftime('%Y-%m', datetime(date, 'unixepoch')) as month,
       category_id,
       c.name as category_name,
-      c.color as category_color,
+      c.color_value as category_color,
       COUNT(*) as transaction_count,
       SUM(amount) as total_amount,
       AVG(amount) as average_amount

@@ -35,7 +35,7 @@ abstract class Category with _$Category {
       id: map['id'] as int?,
       name: map['name'] as String,
       iconCode: map['icon_code'] as int,
-      colorValue: map['color'] as int,
+      colorValue: map['color_value'] as int,
       isDefault: (map['is_default'] as int) == 1,
       isActive: (map['is_active'] as int) == 1,
       createdAt: map['created_at'] != null 
@@ -55,7 +55,7 @@ abstract class Category with _$Category {
       if (id != null) 'id': id,
       'name': name,
       'icon_code': iconCode,
-      'color': colorValue,
+      'color_value': colorValue,
       'is_default': isDefault ? 1 : 0,
       'is_active': isActive ? 1 : 0,
       if (createdAt != null) 'created_at': createdAt!.millisecondsSinceEpoch,

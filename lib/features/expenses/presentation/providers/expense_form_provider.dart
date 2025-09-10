@@ -365,9 +365,8 @@ class ExpenseForm extends _$ExpenseForm {
   }
 
   /// Check if form can be saved
-  // bool get canSave => isValid && !state.isSubmitting;
   bool get canSave {
-    return state.validation.isValid && !state.isSubmitting;
+    return isValid && !state.isSubmitting;
   }
 }
 
