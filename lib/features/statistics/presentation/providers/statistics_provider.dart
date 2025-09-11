@@ -252,10 +252,7 @@ class StatisticsFilter extends _$StatisticsFilter {
         startDate = DateTime(now.year - 1, 1, 1);
         endDate = DateTime(now.year - 1, 12, 31);
         break;
-      case StatisticsPeriod.all:
-        startDate = DateTime(2000, 1, 1);
-        endDate = now;
-        break;
+        
       case StatisticsPeriod.custom:
         // Keep existing dates
         return;
@@ -316,113 +313,7 @@ class DashboardStats {
  String get formattedMonthDailyAverage => '\$${monthDailyAverage.toStringAsFixed(2)}';
 }
 
-/// Statistics filter state
-class StatisticsFilterState {
- final DateTime startDate;
- final DateTime endDate;
- final StatisticsPeriod period;
- final List<int>? categoryIds;
- final ChartType chartType;
-
- const StatisticsFilterState({
-   required this.startDate,
-   required this.endDate,
-   required this.period,
-   this.categoryIds,
-   required this.chartType,
- });
-
- factory StatisticsFilterState.thisMonth() {
-   final now = DateTime.now();
-   return StatisticsFilterState(
-     startDate: DateTime(now.year, now.month, 1),
-     endDate: now,
-     period: StatisticsPeriod.thisMonth,
-     chartType: ChartType.pie,
-   );
- }
-
- StatisticsFilterState copyWith({
-   DateTime? startDate,
-   DateTime? endDate,
-   StatisticsPeriod? period,
-   List<int>? categoryIds,
-   ChartType? chartType,
- }) {
-   return StatisticsFilterState(
-     startDate: startDate ?? this.startDate,
-     endDate: endDate ?? this.endDate,
-     period: period ?? this.period,
-     categoryIds: categoryIds ?? this.categoryIds,
-     chartType: chartType ?? this.chartType,
-   );
- }
-
- String get periodDisplayName {
-   switch (period) {
-     case StatisticsPeriod.today:
-       return 'Today';
-     case StatisticsPeriod.thisWeek:
-       return 'This Week';
-     case StatisticsPeriod.thisMonth:
-       return 'This Month';
-     case StatisticsPeriod.lastMonth:
-       return 'Last Month';
-     case StatisticsPeriod.thisYear:
-       return 'This Year';
-     case StatisticsPeriod.lastYear:
-       return 'Last Year';
-     case StatisticsPeriod.all:
-       return 'All Time';
-     case StatisticsPeriod.custom:
-       return 'Custom Range';
-   }
- }
-
- String get dateRangeDisplayText {
-   if (period == StatisticsPeriod.custom) {
-     return '${startDate.month}/${startDate.day}/${startDate.year} - ${endDate.month}/${endDate.day}/${endDate.year}';
-   }
-   return periodDisplayName;
- }
-
- int get daysCovered => endDate.difference(startDate).inDays + 1;
- 
- bool get hasActiveCategoryFilter => categoryIds != null && categoryIds!.isNotEmpty;
-}
-
-enum StatisticsPeriod {
- today,
- thisWeek,
- thisMonth,
- lastMonth,
- thisYear,
- lastYear,
- all,
- custom,
-}
-
-enum ChartType {
- pie,
- bar,
- line,
- scatter,
-}
-
-extension ChartTypeExtension on ChartType {
- String get displayName {
-   switch (this) {
-     case ChartType.pie:
-       return 'Pie Chart';
-     case ChartType.bar:
-       return 'Bar Chart';
-     case ChartType.line:
-       return 'Line Chart';
-     case ChartType.scatter:
-       return 'Scatter Plot';
-   }
- }
-}
+// Now using StatisticsFilterState, StatisticsPeriod, and ChartType from statistics_entity.dart
 
 // Filtered Statistics Provider (based on current filter)
 @riverpod
@@ -470,13 +361,7 @@ Future<List<dynamic>> filteredChartData(FilteredChartDataRef ref) async {
        endDate: filter.endDate,
        period: _getTrendPeriodFromFilter(filter),
      );
-   case ChartType.scatter:
-     // Return line data for scatter plot (can be converted in UI)
-     return await repository.getSpendingTrendLineData(
-       startDate: filter.startDate,
-       endDate: filter.endDate,
-       period: TrendPeriod.daily,
-     );
+     
  }
 }
 
@@ -640,6 +525,33 @@ Future<List<CategorySpendingSummary>> topSpendingCategories(
  ).future);
  
  return summaries.take(limit).toList();
+}
+
+// Additional missing providers that the statistics screen references
+@riverpod
+Future<List<CategoryInsight>> categoryInsights(
+  CategoryInsightsRef ref, {
+  DateTime? startDate, 
+  DateTime? endDate,
+}) async {
+  final repository = ref.watch(statisticsRepositoryProvider);
+  return await repository.getCategoryInsights(
+    startDate: startDate,
+    endDate: endDate,
+  );
+}
+
+@riverpod
+Future<List<WeeklySpendingTrend>> weeklySpendingTrend(
+  WeeklySpendingTrendRef ref, {
+  DateTime? startDate,
+  DateTime? endDate,
+}) async {
+  final repository = ref.watch(statisticsRepositoryProvider);
+  return await repository.getWeeklySpendingTrend(
+    startDate: startDate,
+    endDate: endDate,
+  );
 }
 
 /// Statistics export result

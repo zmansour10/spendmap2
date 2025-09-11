@@ -129,47 +129,4 @@ extension BudgetHealthStatusExtension on BudgetHealthStatus {
   }
 }
 
-class CategoryInsight {
-  final int categoryId;
-  final String categoryName;
-  final String insight;
-  final InsightType type;
-  final Map<String, dynamic> data;
-
-  const CategoryInsight({
-    required this.categoryId,
-    required this.categoryName,
-    required this.insight,
-    required this.type,
-    required this.data,
-  });
-}
-
-class AnomalyDetection {
-  final DateTime date;
-  final double expectedAmount;
-  final double actualAmount;
-  final double deviation;
-  final String description;
-  final AnomalyType type;
-
-  const AnomalyDetection({
-    required this.date,
-    required this.expectedAmount,
-    required this.actualAmount,
-    required this.deviation,
-    required this.description,
-    required this.type,
-  });
-
-  String get formattedExpected => '\$${expectedAmount.toStringAsFixed(2)}';
-  String get formattedActual => '\$${actualAmount.toStringAsFixed(2)}';
-  String get formattedDeviation => '\$${deviation.abs().toStringAsFixed(2)}';
-}
-
-enum AnomalyType {
-  unusuallyHigh,
-  unusuallyLow,
-  unexpectedCategory,
-  frequencyAnomaly,
-}
+// CategoryInsight and AnomalyDetection moved to statistics_entity.dart to avoid duplication

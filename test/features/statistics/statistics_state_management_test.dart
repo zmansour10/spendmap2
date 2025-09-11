@@ -71,7 +71,7 @@ void main() {
         expect(filterState.hasActiveCategoryFilter, isTrue);
         
         // Clear category filter
-        filterNotifier.setCategoryFilter(null);
+        filterNotifier.setCategoryFilter([]);
         final clearedState = container.read(statisticsFilterProvider);
         expect(clearedState.hasActiveCategoryFilter, isFalse);
       });
@@ -85,28 +85,27 @@ void main() {
         expect(filterState.chartType, equals(ChartType.bar));
       });
 
-      test('should calculate days covered correctly', () {
+      test('should have valid date range', () {
         final filterState = container.read(statisticsFilterProvider);
-        final daysCovered = filterState.daysCovered;
         
-        expect(daysCovered, greaterThan(0));
-        expect(daysCovered, lessThanOrEqualTo(31)); // Max days in a month
+        expect(filterState.startDate.isBefore(filterState.endDate), isTrue);
+        expect(filterState.endDate.difference(filterState.startDate).inDays, greaterThan(0));
       });
 
       test('should generate correct display names', () {
         final filterNotifier = container.read(statisticsFilterProvider.notifier);
         
         filterNotifier.setPeriod(StatisticsPeriod.today);
-        expect(container.read(statisticsFilterProvider).periodDisplayName, equals('Today'));
+        expect(container.read(statisticsFilterProvider).period.displayName, equals('Today'));
         
         filterNotifier.setPeriod(StatisticsPeriod.thisWeek);
-        expect(container.read(statisticsFilterProvider).periodDisplayName, equals('This Week'));
+        expect(container.read(statisticsFilterProvider).period.displayName, equals('This Week'));
         
         filterNotifier.setPeriod(StatisticsPeriod.thisMonth);
-        expect(container.read(statisticsFilterProvider).periodDisplayName, equals('This Month'));
+        expect(container.read(statisticsFilterProvider).period.displayName, equals('This Month'));
       });
 
-      test('should handle custom date range display', () {
+      test('should handle custom date range correctly', () {
         final filterNotifier = container.read(statisticsFilterProvider.notifier);
         final startDate = DateTime(2024, 1, 15);
         final endDate = DateTime(2024, 2, 14);
@@ -114,10 +113,10 @@ void main() {
         filterNotifier.setDateRange(startDate, endDate);
         
         final filterState = container.read(statisticsFilterProvider);
-        final displayText = filterState.dateRangeDisplayText;
         
-        expect(displayText, contains('1/15/2024'));
-        expect(displayText, contains('2/14/2024'));
+        expect(filterState.startDate, equals(startDate));
+        expect(filterState.endDate, equals(endDate));
+        expect(filterState.period, equals(StatisticsPeriod.custom));
       });
     });
 
@@ -163,7 +162,6 @@ void main() {
         expect(ChartType.pie.displayName, equals('Pie Chart'));
         expect(ChartType.bar.displayName, equals('Bar Chart'));
         expect(ChartType.line.displayName, equals('Line Chart'));
-        expect(ChartType.scatter.displayName, equals('Scatter Plot'));
       });
     });
 

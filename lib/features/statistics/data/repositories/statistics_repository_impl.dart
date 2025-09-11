@@ -407,11 +407,7 @@ class StatisticsRepositoryImpl implements StatisticsRepository {
  }) async {
    final insights = <SpendingInsight>[];
    
-   // Get current period stats
-   final currentStats = await getExpenseStatistics(
-     startDate: startDate,
-     endDate: endDate,
-   );
+
 
    // Compare with previous period
    final periodLength = (endDate ?? DateTime.now()).difference(startDate ?? DateTime.now().subtract(const Duration(days: 30))).inDays;
@@ -478,6 +474,7 @@ class StatisticsRepositoryImpl implements StatisticsRepository {
          categoryName: summary.categoryName,
          insight: '${summary.categoryName} represents ${summary.formattedPercentage} of your spending',
          type: InsightType.spendingPattern,
+         priority: InsightPriority.medium,
          data: {
            'percentage': summary.percentage,
            'amount': summary.totalAmount,
@@ -515,16 +512,16 @@ class StatisticsRepositoryImpl implements StatisticsRepository {
 
      if (deviation > threshold) {
        anomalies.add(AnomalyDetection(
-         date: current.date,
-         expectedAmount: average,
-         actualAmount: current.value,
-         deviation: deviation,
-         description: current.value > average 
-             ? 'Unusually high spending detected'
-             : 'Unusually low spending detected',
          type: current.value > average 
              ? AnomalyType.unusuallyHigh 
              : AnomalyType.unusuallyLow,
+         date: current.date,
+         actualValue: current.value,
+         expectedValue: average,
+         description: current.value > average 
+             ? 'Unusually high spending detected'
+             : 'Unusually low spending detected',
+         severity: (deviation / average).clamp(0.0, 1.0),
        ));
      }
    }
@@ -543,7 +540,7 @@ class StatisticsRepositoryImpl implements StatisticsRepository {
  Future<BudgetOverview> getBudgetOverview({DateTime? forMonth}) async {
    // This would typically integrate with a budget management system
    // For now, return a basic overview
-   return const BudgetOverview(
+   return BudgetOverview(
      totalBudget: 0.0,
      totalSpent: 0.0,
      totalRemaining: 0.0,
@@ -551,9 +548,9 @@ class StatisticsRepositoryImpl implements StatisticsRepository {
      categoriesOverBudget: 0,
      categoriesNearBudget: 0,
      totalCategories: 0,
-     periodStart: null, // A value of type 'Null' can't be assigned to a parameter of type 'DateTime' in a const constructor.
-     periodEnd: null,
-     categoryStatuses: [],
+     periodStart: DateTime.now(),
+     periodEnd: DateTime.now(),
+     categoryStatuses: const [],
    );
  }
 

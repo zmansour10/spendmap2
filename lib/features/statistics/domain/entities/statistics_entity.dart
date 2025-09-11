@@ -192,3 +192,204 @@ enum TrendPeriod {
   monthly,
   yearly,
 }
+
+// Statistics Filter Enums
+enum StatisticsPeriod {
+  today,
+  thisWeek,
+  thisMonth,
+  lastMonth,
+  thisYear,
+  lastYear,
+  custom,
+}
+
+extension StatisticsPeriodExtension on StatisticsPeriod {
+  String get displayName {
+    switch (this) {
+      case StatisticsPeriod.today:
+        return 'Today';
+      case StatisticsPeriod.thisWeek:
+        return 'This Week';
+      case StatisticsPeriod.thisMonth:
+        return 'This Month';
+      case StatisticsPeriod.lastMonth:
+        return 'Last Month';
+      case StatisticsPeriod.thisYear:
+        return 'This Year';
+      case StatisticsPeriod.lastYear:
+        return 'Last Year';
+      case StatisticsPeriod.custom:
+        return 'Custom';
+    }
+  }
+
+  DateRange get dateRange {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    
+    switch (this) {
+      case StatisticsPeriod.today:
+        return DateRange(today, today.add(const Duration(days: 1)).subtract(const Duration(seconds: 1)));
+      
+      case StatisticsPeriod.thisWeek:
+        final weekStart = today.subtract(Duration(days: now.weekday - 1));
+        final weekEnd = weekStart.add(const Duration(days: 6, hours: 23, minutes: 59, seconds: 59));
+        return DateRange(weekStart, weekEnd);
+      
+      case StatisticsPeriod.thisMonth:
+        final monthStart = DateTime(now.year, now.month, 1);
+        final monthEnd = DateTime(now.year, now.month + 1, 1).subtract(const Duration(seconds: 1));
+        return DateRange(monthStart, monthEnd);
+      
+      case StatisticsPeriod.lastMonth:
+        final lastMonthStart = DateTime(now.year, now.month - 1, 1);
+        final lastMonthEnd = DateTime(now.year, now.month, 1).subtract(const Duration(seconds: 1));
+        return DateRange(lastMonthStart, lastMonthEnd);
+      
+      case StatisticsPeriod.thisYear:
+        final yearStart = DateTime(now.year, 1, 1);
+        final yearEnd = DateTime(now.year, 12, 31, 23, 59, 59);
+        return DateRange(yearStart, yearEnd);
+      
+      case StatisticsPeriod.lastYear:
+        final lastYearStart = DateTime(now.year - 1, 1, 1);
+        final lastYearEnd = DateTime(now.year - 1, 12, 31, 23, 59, 59);
+        return DateRange(lastYearStart, lastYearEnd);
+      
+      case StatisticsPeriod.custom:
+        return DateRange(today, today);
+    }
+  }
+}
+
+enum ChartType {
+  pie,
+  line,
+  bar,
+}
+
+extension ChartTypeExtension on ChartType {
+  String get displayName {
+    switch (this) {
+      case ChartType.pie:
+        return 'Pie Chart';
+      case ChartType.line:
+        return 'Line Chart';
+      case ChartType.bar:
+        return 'Bar Chart';
+    }
+  }
+}
+
+// Anomaly Detection
+enum AnomalyType {
+  unusuallyHigh,
+  unusuallyLow,
+  unexpectedCategory,
+  frequencyAnomaly,
+}
+
+class AnomalyDetection {
+  final AnomalyType type;
+  final DateTime date;
+  final double actualValue;
+  final double expectedValue;
+  final String description;
+  final double severity; // 0.0 to 1.0
+
+  const AnomalyDetection({
+    required this.type,
+    required this.date,
+    required this.actualValue,
+    required this.expectedValue,
+    required this.description,
+    required this.severity,
+  });
+
+  String get formattedActual => '\$${actualValue.toStringAsFixed(2)}';
+  String get formattedExpected => '\$${expectedValue.toStringAsFixed(2)}';
+}
+
+// Category Insights
+class CategoryInsight {
+  final int categoryId;
+  final String categoryName;
+  final String insight;
+  final InsightType type;
+  final InsightPriority priority;
+  final Map<String, dynamic> data;
+
+  const CategoryInsight({
+    required this.categoryId,
+    required this.categoryName,
+    required this.insight,
+    required this.type,
+    required this.priority,
+    required this.data,
+  });
+}
+
+// Date Range Helper
+class DateRange {
+  final DateTime start;
+  final DateTime end;
+
+  const DateRange(this.start, this.end);
+
+  Duration get duration => end.difference(start);
+  int get days => duration.inDays + 1;
+
+  bool contains(DateTime date) {
+    return date.isAfter(start.subtract(const Duration(seconds: 1))) && 
+           date.isBefore(end.add(const Duration(seconds: 1)));
+  }
+}
+
+// Statistics Filter State
+class StatisticsFilterState {
+  final StatisticsPeriod period;
+  final ChartType chartType;
+  final DateTime startDate;
+  final DateTime endDate;
+  final List<int>? categoryIds;
+
+  const StatisticsFilterState({
+    required this.period,
+    required this.chartType,
+    required this.startDate,
+    required this.endDate,
+    this.categoryIds,
+  });
+
+  factory StatisticsFilterState.thisMonth() {
+    final now = DateTime.now();
+    final monthStart = DateTime(now.year, now.month, 1);
+    final monthEnd = DateTime(now.year, now.month + 1, 1).subtract(const Duration(seconds: 1));
+    
+    return StatisticsFilterState(
+      period: StatisticsPeriod.thisMonth,
+      chartType: ChartType.pie,
+      startDate: monthStart,
+      endDate: monthEnd,
+    );
+  }
+
+  StatisticsFilterState copyWith({
+    StatisticsPeriod? period,
+    ChartType? chartType,
+    DateTime? startDate,
+    DateTime? endDate,
+    List<int>? categoryIds,
+  }) {
+    return StatisticsFilterState(
+      period: period ?? this.period,
+      chartType: chartType ?? this.chartType,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+      categoryIds: categoryIds ?? this.categoryIds,
+    );
+  }
+
+  bool get hasActiveCategoryFilter => categoryIds != null && categoryIds!.isNotEmpty;
+}
