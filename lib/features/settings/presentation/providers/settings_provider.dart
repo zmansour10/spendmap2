@@ -10,13 +10,13 @@ part 'settings_provider.g.dart';
 
 // SharedPreferences Provider
 @riverpod
-Future<SharedPreferences> sharedPreferences(ref) async {
+Future<SharedPreferences> sharedPreferences(SharedPreferencesRef ref) async {
   return await SharedPreferences.getInstance();
 }
 
 // Settings Repository Provider
 @riverpod
-SettingsRepository settingsRepository(ref) {
+SettingsRepository settingsRepository(SettingsRepositoryRef ref) {
   final prefs = ref.watch(sharedPreferencesProvider).value;
   if (prefs == null) {
     throw Exception('SharedPreferences not initialized');

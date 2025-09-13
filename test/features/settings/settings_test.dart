@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:spendmap2/features/settings/data/models/app_settings.dart';
 import 'package:spendmap2/features/settings/domain/entities/settings_entity.dart';

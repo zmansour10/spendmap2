@@ -1,7 +1,5 @@
-import 'dart:math';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter/material.dart';
 import '../../domain/entities/settings_entity.dart';
 
 part 'app_settings.freezed.dart';
