@@ -1,7 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:flutter/material.dart';
 import '../../domain/entities/expense_entity.dart';
-import '../../../categories/domain/entities/category_entity.dart';
 import '../../../categories/presentation/providers/category_provider.dart';
 import 'expense_provider.dart';
 
