@@ -127,7 +127,7 @@ class Settings extends _$Settings {
 
 // Current Theme Provider (derived from settings)
 @riverpod
-ThemeMode currentTheme(ref) {
+ThemeMode currentTheme(CurrentThemeRef ref) {
   final settingsAsync = ref.watch(settingsProvider);
   return settingsAsync.when(
     data: (settings) => settings.themeMode.toFlutterThemeMode(), 
