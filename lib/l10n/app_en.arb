@@ -1,0 +1,556 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "SpendMap",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+
+  "expenses": "Expenses",
+  "@expenses": {
+    "description": "Label for expenses section"
+  },
+
+  "categories": "Categories",
+  "@categories": {
+    "description": "Label for categories section"
+  },
+
+  "statistics": "Statistics",
+  "@statistics": {
+    "description": "Label for statistics section"
+  },
+
+  "settings": "Settings",
+  "@settings": {
+    "description": "Label for settings section"
+  },
+
+  "addExpense": "Add Expense",
+  "@addExpense": {
+    "description": "Button text to add new expense"
+  },
+
+  "editExpense": "Edit Expense",
+  "@editExpense": {
+    "description": "Button text to edit expense"
+  },
+
+  "deleteExpense": "Delete Expense",
+  "@deleteExpense": {
+    "description": "Button text to delete expense"
+  },
+
+  "amount": "Amount",
+  "@amount": {
+    "description": "Label for amount field"
+  },
+
+  "description": "Description",
+  "@description": {
+    "description": "Label for description field"
+  },
+
+  "date": "Date",
+  "@date": {
+    "description": "Label for date field"
+  },
+
+  "category": "Category",
+  "@category": {
+    "description": "Label for category field"
+  },
+
+  "save": "Save",
+  "@save": {
+    "description": "Save button text"
+  },
+
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button text"
+  },
+
+  "delete": "Delete",
+  "@delete": {
+    "description": "Delete button text"
+  },
+
+  "edit": "Edit",
+  "@edit": {
+    "description": "Edit button text"
+  },
+
+  "confirm": "Confirm",
+  "@confirm": {
+    "description": "Confirm button text"
+  },
+
+  "currency": "Currency",
+  "@currency": {
+    "description": "Label for currency setting"
+  },
+
+  "language": "Language",
+  "@language": {
+    "description": "Label for language setting"
+  },
+
+  "theme": "Theme",
+  "@theme": {
+    "description": "Label for theme setting"
+  },
+
+  "lightTheme": "Light",
+  "@lightTheme": {
+    "description": "Light theme option"
+  },
+
+  "darkTheme": "Dark",
+  "@darkTheme": {
+    "description": "Dark theme option"
+  },
+
+  "systemTheme": "System",
+  "@systemTheme": {
+    "description": "System theme option"
+  },
+
+  "followDeviceSetting": "Follow device setting",
+  "@followDeviceSetting": {
+    "description": "Description for system theme"
+  },
+
+  "alwaysUseLightTheme": "Always use light theme",
+  "@alwaysUseLightTheme": {
+    "description": "Description for light theme"
+  },
+
+  "alwaysUseDarkTheme": "Always use dark theme",
+  "@alwaysUseDarkTheme": {
+    "description": "Description for dark theme"
+  },
+
+  "selectCurrency": "Select Currency",
+  "@selectCurrency": {
+    "description": "Title for currency selection"
+  },
+
+  "selectLanguage": "Select Language",
+  "@selectLanguage": {
+    "description": "Title for language selection"
+  },
+
+  "selectTheme": "Select Theme",
+  "@selectTheme": {
+    "description": "Title for theme selection"
+  },
+
+  "selectCategory": "Select Category",
+  "@selectCategory": {
+    "description": "Title for category selection"
+  },
+
+  "selectDefaultCategory": "Select Default Category",
+  "@selectDefaultCategory": {
+    "description": "Title for default category selection"
+  },
+
+  "defaultCategory": "Default category",
+  "@defaultCategory": {
+    "description": "Label for default category setting"
+  },
+
+  "noneSelected": "None selected",
+  "@noneSelected": {
+    "description": "Text when no category is selected"
+  },
+
+  "none": "None",
+  "@none": {
+    "description": "Option for no selection"
+  },
+
+  "appPreferences": "App Preferences",
+  "@appPreferences": {
+    "description": "Section title for app preferences"
+  },
+
+  "displaySettings": "Display Settings",
+  "@displaySettings": {
+    "description": "Section title for display settings"
+  },
+
+  "notifications": "Notifications",
+  "@notifications": {
+    "description": "Section title for notifications"
+  },
+
+  "privacyAndSecurity": "Privacy & Security",
+  "@privacyAndSecurity": {
+    "description": "Section title for privacy and security"
+  },
+
+  "dataManagement": "Data Management",
+  "@dataManagement": {
+    "description": "Section title for data management"
+  },
+
+  "advanced": "Advanced",
+  "@advanced": {
+    "description": "Section title for advanced settings"
+  },
+
+  "about": "About",
+  "@about": {
+    "description": "Section title for about information"
+  },
+
+  "showCentsInAmounts": "Show cents in amounts",
+  "@showCentsInAmounts": {
+    "description": "Setting to display amounts with decimal places"
+  },
+
+  "displayAmountsWithDecimalPlaces": "Display amounts with decimal places",
+  "@displayAmountsWithDecimalPlaces": {
+    "description": "Description for show cents setting"
+  },
+
+  "compactExpenseView": "Compact expense view",
+  "@compactExpenseView": {
+    "description": "Setting for compact layout"
+  },
+
+  "useCompactLayoutForExpenseLists": "Use compact layout for expense lists",
+  "@useCompactLayoutForExpenseLists": {
+    "description": "Description for compact view setting"
+  },
+
+  "showExpenseCategories": "Show expense categories",
+  "@showExpenseCategories": {
+    "description": "Setting to show category labels"
+  },
+
+  "displayCategoryLabelsInExpenseLists": "Display category labels in expense lists",
+  "@displayCategoryLabelsInExpenseLists": {
+    "description": "Description for show categories setting"
+  },
+
+  "enableNotifications": "Enable notifications",
+  "@enableNotifications": {
+    "description": "Setting to enable notifications"
+  },
+
+  "receiveAppNotifications": "Receive app notifications",
+  "@receiveAppNotifications": {
+    "description": "Description for notifications setting"
+  },
+
+  "dailySpendingReminders": "Daily spending reminders",
+  "@dailySpendingReminders": {
+    "description": "Setting for daily reminders"
+  },
+
+  "getRemindedToTrackDailyExpenses": "Get reminded to track daily expenses",
+  "@getRemindedToTrackDailyExpenses": {
+    "description": "Description for daily reminders"
+  },
+
+  "budgetAlerts": "Budget alerts",
+  "@budgetAlerts": {
+    "description": "Setting for budget alerts"
+  },
+
+  "getNotifiedWhenApproachingBudgetLimits": "Get notified when approaching budget limits",
+  "@getNotifiedWhenApproachingBudgetLimits": {
+    "description": "Description for budget alerts"
+  },
+
+  "requireBiometricAuthentication": "Require biometric authentication",
+  "@requireBiometricAuthentication": {
+    "description": "Setting for biometric authentication"
+  },
+
+  "useFingerprintOrFaceUnlock": "Use fingerprint or face unlock",
+  "@useFingerprintOrFaceUnlock": {
+    "description": "Description for biometric authentication"
+  },
+
+  "hideAmountsInRecents": "Hide amounts in recents",
+  "@hideAmountsInRecents": {
+    "description": "Setting to hide amounts in app switcher"
+  },
+
+  "hideExpenseAmountsInAppSwitcher": "Hide expense amounts in app switcher",
+  "@hideExpenseAmountsInAppSwitcher": {
+    "description": "Description for hide amounts setting"
+  },
+
+  "autoBackup": "Auto backup",
+  "@autoBackup": {
+    "description": "Setting for automatic backup"
+  },
+
+  "backupEveryNDays": "Backup every {days} days",
+  "@backupEveryNDays": {
+    "description": "Description for backup frequency",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "7"
+      }
+    }
+  },
+
+  "lastBackup": "Last backup",
+  "@lastBackup": {
+    "description": "Label for last backup date"
+  },
+
+  "exportData": "Export data",
+  "@exportData": {
+    "description": "Option to export data"
+  },
+
+  "exportAllExpensesAndSettings": "Export all expenses and settings",
+  "@exportAllExpensesAndSettings": {
+    "description": "Description for data export"
+  },
+
+  "importData": "Import data",
+  "@importData": {
+    "description": "Option to import data"
+  },
+
+  "importFromBackupFile": "Import from backup file",
+  "@importFromBackupFile": {
+    "description": "Description for data import"
+  },
+
+  "clearAllData": "Clear all data",
+  "@clearAllData": {
+    "description": "Option to clear all data"
+  },
+
+  "deleteAllExpensesAndResetSettings": "Delete all expenses and reset settings",
+  "@deleteAllExpensesAndResetSettings": {
+    "description": "Description for clear data option"
+  },
+
+  "confirmBeforeDeleting": "Confirm before deleting",
+  "@confirmBeforeDeleting": {
+    "description": "Setting for delete confirmation"
+  },
+
+  "askForConfirmationWhenDeletingExpenses": "Ask for confirmation when deleting expenses",
+  "@askForConfirmationWhenDeletingExpenses": {
+    "description": "Description for delete confirmation setting"
+  },
+
+  "resetAllSettings": "Reset all settings",
+  "@resetAllSettings": {
+    "description": "Option to reset settings"
+  },
+
+  "restoreDefaultSettingsCannotBeUndone": "Restore default settings (cannot be undone)",
+  "@restoreDefaultSettingsCannotBeUndone": {
+    "description": "Description for reset settings option"
+  },
+
+  "appVersion": "App Version",
+  "@appVersion": {
+    "description": "Label for app version"
+  },
+
+  "created": "Created",
+  "@created": {
+    "description": "Label for creation date"
+  },
+
+  "lastUpdated": "Last Updated",
+  "@lastUpdated": {
+    "description": "Label for last update date"
+  },
+
+  "exportAsCSV": "Export as CSV",
+  "@exportAsCSV": {
+    "description": "Option to export as CSV"
+  },
+
+  "spreadsheetFormatForExpensesOnly": "Spreadsheet format for expenses only",
+  "@spreadsheetFormatForExpensesOnly": {
+    "description": "Description for CSV export"
+  },
+
+  "exportAsJSON": "Export as JSON",
+  "@exportAsJSON": {
+    "description": "Option to export as JSON"
+  },
+
+  "completeBackupIncludingSettings": "Complete backup including settings",
+  "@completeBackupIncludingSettings": {
+    "description": "Description for JSON export"
+  },
+
+  "selectFile": "Select File",
+  "@selectFile": {
+    "description": "Button to select file"
+  },
+
+  "resetSettings": "Reset Settings",
+  "@resetSettings": {
+    "description": "Dialog title for reset settings"
+  },
+
+  "resetSettingsConfirmation": "Are you sure you want to reset all settings to their default values? This action cannot be undone.",
+  "@resetSettingsConfirmation": {
+    "description": "Confirmation message for reset settings"
+  },
+
+  "reset": "Reset",
+  "@reset": {
+    "description": "Reset button text"
+  },
+
+  "clearAllDataConfirmation": "This will permanently delete all your expenses and reset all settings to defaults. This action cannot be undone.\n\nAre you sure you want to continue?",
+  "@clearAllDataConfirmation": {
+    "description": "Confirmation message for clearing all data"
+  },
+
+  "clearData": "Clear Data",
+  "@clearData": {
+    "description": "Clear data button text"
+  },
+
+  "finalConfirmation": "Final Confirmation",
+  "@finalConfirmation": {
+    "description": "Title for final confirmation dialog"
+  },
+
+  "typeDeleteToConfirm": "Type \"DELETE\" to confirm data deletion:",
+  "@typeDeleteToConfirm": {
+    "description": "Instruction for final deletion confirmation"
+  },
+
+  "dataExportedToDocuments": "Data exported to Documents/{filename}",
+  "@dataExportedToDocuments": {
+    "description": "Success message for data export",
+    "placeholders": {
+      "filename": {
+        "type": "String",
+        "example": "backup.json"
+      }
+    }
+  },
+
+  "showPath": "Show Path",
+  "@showPath": {
+    "description": "Button to show file path"
+  },
+
+  "exportFailed": "Export failed: {error}",
+  "@exportFailed": {
+    "description": "Error message for export failure",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Permission denied"
+      }
+    }
+  },
+
+  "dataImportedSuccessfully": "Data imported successfully",
+  "@dataImportedSuccessfully": {
+    "description": "Success message for data import"
+  },
+
+  "importFailedCheckFileFormat": "Import failed. Please check the file format.",
+  "@importFailedCheckFileFormat": {
+    "description": "Error message for import format failure"
+  },
+
+  "importFailed": "Import failed: {error}",
+  "@importFailed": {
+    "description": "Error message for import failure",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "File not found"
+      }
+    }
+  },
+
+  "allDataClearedSuccessfully": "All data cleared successfully",
+  "@allDataClearedSuccessfully": {
+    "description": "Success message for data clearing"
+  },
+
+  "failedToClearData": "Failed to clear data: {error}",
+  "@failedToClearData": {
+    "description": "Error message for data clearing failure",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+
+  "settingsResetSuccessfully": "Settings reset successfully",
+  "@settingsResetSuccessfully": {
+    "description": "Success message for settings reset"
+  },
+
+  "errorResettingSettings": "Error resetting settings: {error}",
+  "@errorResettingSettings": {
+    "description": "Error message for settings reset failure",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Permission denied"
+      }
+    }
+  },
+
+  "errorLoadingSettings": "Error loading settings: {error}",
+  "@errorLoadingSettings": {
+    "description": "Error message for settings loading failure",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+
+  "retry": "Retry",
+  "@retry": {
+    "description": "Retry button text"
+  },
+
+  "close": "Close",
+  "@close": {
+    "description": "Close button text"
+  },
+
+  "appRestartMayBeRequired": "App restart may be required for language changes to take full effect.",
+  "@appRestartMayBeRequired": {
+    "description": "Warning message for language changes"
+  },
+
+  "loadingCategories": "Loading categories...",
+  "@loadingCategories": {
+    "description": "Loading message for categories"
+  },
+
+  "errorLoadingCategories": "Error loading categories: {error}",
+  "@errorLoadingCategories": {
+    "description": "Error message for categories loading failure",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  }
+}
