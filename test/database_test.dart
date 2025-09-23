@@ -9,10 +9,10 @@ void main() {
     late DatabaseHelper databaseHelper;
 
     setUpAll(() async {
-      // Initialize Flutter binding for testing
+      // Flutter binding for testing
       TestWidgetsFlutterBinding.ensureInitialized();
       
-      // Initialize FFI for testing SQLite
+      // FFI for testing SQLite
       sqfliteFfiInit();
       databaseFactory = databaseFactoryFfi;
     });
