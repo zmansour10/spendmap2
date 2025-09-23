@@ -6,6 +6,9 @@ import 'package:path_provider/path_provider.dart';
 import '../constants/app_constants.dart';
 import 'tables.dart';
 
+/// Database helper class
+/// Manages database creation, upgrades, and provides CRUD operations
+/// Implements singleton pattern to ensure single database instance
 class DatabaseHelper {
   static DatabaseHelper? _instance;
   static Database? _database;
@@ -25,20 +28,20 @@ class DatabaseHelper {
     return _database!;
   }
 
-  // Initialize database
+  /// Initialize the database
+  /// Creates or opens the database, applies migrations if needed
+  /// @return Future<Database>
   Future<Database> _initDatabase() async {
     try {
 
-      // For testing, use in-memory database
+      // In-memory database
       if (Platform.environment.containsKey('FLUTTER_TEST')) {
         return await _initInMemoryDatabase();
       }
 
-      // Get the application documents directory
       Directory documentsDirectory = await getApplicationDocumentsDirectory();
       String path = join(documentsDirectory.path, AppConstants.databaseName);
 
-      // Open the database
       return await openDatabase(
         path,
         version: AppConstants.databaseVersion,
@@ -52,27 +55,26 @@ class DatabaseHelper {
     }
   }
 
-  // Configure database settings
+  /// Configure database settings
+  /// Enables foreign keys, sets journal mode, synchronous mode, cache size, and temp store
+  /// @param db The database instance
+  /// @return Future<void>
   Future<void> _configureDatabase(Database db) async {
     try {
-      // Enable foreign key constraints
+
       await db.execute('PRAGMA foreign_keys = ON');
 
-      // Try to set journal mode to WAL, fallback to DELETE if fails
+      // WAL, fallback to DELETE! 
       try {
         await db.execute('PRAGMA journal_mode = WAL');
       } catch (e) {
-        // WAL mode might not work on some platforms, use DELETE mode
         await db.execute('PRAGMA journal_mode = DELETE');
       }
 
-      // Set synchronous mode to NORMAL for better performance
       await db.execute('PRAGMA synchronous = NORMAL');
 
-      // Set cache size (negative value means KB)
       await db.execute('PRAGMA cache_size = -2000');
 
-      // Set temp store to memory
       await db.execute('PRAGMA temp_store = MEMORY');
     } catch (e) {
       // Log the error but don't fail the database initialization
@@ -80,7 +82,12 @@ class DatabaseHelper {
     }
   }
 
-  // Create database tables
+  /// Create database schema
+  /// Creates tables, indexes, and views
+  /// Inserts default data
+  /// @param db The database instance
+  /// @param version The version of the database
+  /// @return Future<void>
   Future<void> _createDatabase(Database db, int version) async {
     final Batch batch = db.batch();
 
@@ -106,7 +113,13 @@ class DatabaseHelper {
     await _insertDefaultData(db);
   }
 
-  // Handle database upgrades
+  /// Handle database upgrades
+  /// Applies migrations sequentially from oldVersion to newVersion
+  /// Throws DatabaseException if any migration fails
+  /// @param db The database instance
+  /// @param oldVersion The current version of the database
+  /// @param newVersion The target version of the database
+  /// @return Future<void>
   Future<void> _upgradeDatabase(
     Database db,
     int oldVersion,
@@ -114,40 +127,51 @@ class DatabaseHelper {
   ) async {
     for (int version = oldVersion + 1; version <= newVersion; version++) {
       final migrations = DatabaseTables.migrations[version];
-      if (migrations != null) {
-        final Batch batch = db.batch();
-        for (String migration in migrations) {
-          batch.execute(migration);
-        }
+      if (migrations == null || migrations.isEmpty) continue;
+
+      final batch = db.batch();
+      for (final migration in migrations) {
+        batch.execute(migration);
+      }
+
+      try {
         await batch.commit(noResult: true);
+      } catch (e) {
+        throw DatabaseException(
+            'Migration to version $version failed: ${e.toString()}');
       }
     }
   }
 
-  // Called when database is opened
+  /// Handle database opening
+  /// Verifies foreign key constraints are enabled
+  /// @param db The database instance
+  /// @return Future<void>
   Future<void> _onDatabaseOpened(Database db) async {
-    // Verify foreign key constraints are enabled
     final result = await db.rawQuery('PRAGMA foreign_keys');
     if (result.isNotEmpty && result.first['foreign_keys'] != 1) {
       throw DatabaseException('Foreign key constraints are not enabled');
     }
   }
 
-  // Insert default data
+  /// Insert default data into the database
+  /// Inserts default categories and settings
+  /// @param db The database instance
+  /// @return Future<void>
   Future<void> _insertDefaultData(Database db) async {
     final Batch batch = db.batch();
     final now = DateTime.now().millisecondsSinceEpoch;
 
-    // Insert default categories
+    // Default categories
     for (final category in DatabaseTables.defaultCategories) {
       batch.insert(DatabaseTables.categories, {
-        ...category,
+        ...category, 
         'created_at': now,
         'updated_at': now,
       });
     }
 
-    // Insert default settings
+    // Default settings
     for (final setting in DatabaseTables.defaultSettings) {
       batch.insert(DatabaseTables.settings, {
         ...setting,
@@ -159,9 +183,13 @@ class DatabaseHelper {
     await batch.commit(noResult: true);
   }
 
-  // Generic CRUD operations
+  // * CRUD Operations *
 
-  // Insert a record
+  /// Insert a record
+  /// Automatically sets created_at and updated_at timestamps
+  /// @param table The table name
+  /// @param data The data to insert
+  /// @return Future<int> The ID of the inserted record
   Future<int> insert(String table, Map<String, dynamic> data) async {
     try {
       final db = await database;
@@ -183,7 +211,13 @@ class DatabaseHelper {
     }
   }
 
-  // Update a record
+  /// Update a record
+  /// Automatically updates the updated_at timestamp
+  /// @param table The table name
+  /// @param data The data to update
+  /// @param whereClause The WHERE clause to identify records
+  /// @param whereArgs The arguments for the WHERE clause
+  /// @return Future<int> The number of rows affected
   Future<int> update(
     String table,
     Map<String, dynamic> data,
@@ -207,7 +241,11 @@ class DatabaseHelper {
     }
   }
 
-  // Delete a record
+  /// Delete records
+  /// @param table The table name
+  /// @param whereClause The WHERE clause to identify records
+  /// @param whereArgs The arguments for the WHERE clause
+  /// @return Future<int> The number of rows deleted
   Future<int> delete(
     String table,
     String whereClause,
@@ -221,7 +259,7 @@ class DatabaseHelper {
     }
   }
 
-  // Query records
+  /// Query records
   Future<List<Map<String, dynamic>>> query(
     String table, {
     List<String>? columns,
@@ -251,11 +289,10 @@ class DatabaseHelper {
     }
   }
 
-  // Raw query
+  /// Raw query
   Future<List<Map<String, dynamic>>> rawQuery(
-    String sql, [
-    List<dynamic>? arguments,
-  ]) async {
+    String sql, 
+    [List<dynamic>? arguments]) async {
     try {
       final db = await database;
       return await db.rawQuery(sql, arguments);
@@ -264,8 +301,10 @@ class DatabaseHelper {
     }
   }
 
-  // Execute raw SQL
-  Future<void> execute(String sql, [List<dynamic>? arguments]) async {
+  /// Execute raw SQL
+  Future<void> execute(
+    String sql, 
+    [List<dynamic>? arguments]) async {
     try {
       final db = await database;
       await db.execute(sql, arguments);
@@ -274,7 +313,7 @@ class DatabaseHelper {
     }
   }
 
-  // Transaction support
+  /// Transactions
   Future<T> transaction<T>(Future<T> Function(Transaction txn) action) async {
     try {
       final db = await database;
@@ -284,7 +323,7 @@ class DatabaseHelper {
     }
   }
 
-  // Batch operations
+  /// Batch operations
   Future<List<dynamic>> batch(void Function(Batch batch) operations) async {
     try {
       final db = await database;
@@ -296,7 +335,7 @@ class DatabaseHelper {
     }
   }
 
-  // Database maintenance
+  // * Database maintenance *
 
   // Get database size
   Future<int> getDatabaseSize() async {
@@ -310,7 +349,7 @@ class DatabaseHelper {
     }
   }
 
-  // Vacuum database (reclaim unused space)
+  // Vacuum database to reclaim space
   Future<void> vacuum() async {
     try {
       final db = await database;
@@ -332,7 +371,8 @@ class DatabaseHelper {
     }
   }
 
-  // Backup database
+  /// Backup database 
+  /// @return Future<String> The path to the backup file
   Future<String> backup() async {
     try {
       final db = await database;
@@ -357,7 +397,8 @@ class DatabaseHelper {
     }
   }
 
-  // Reset database (for testing or data clearing)
+  /// Reset database
+  /// Deletes the existing database file and reinitializes the database
   Future<void> reset() async {
     try {
       await close();
@@ -369,14 +410,15 @@ class DatabaseHelper {
         await file.delete();
       }
 
-      // Reinitialize
+      // Reinitialize the database
       _database = await _initDatabase();
     } catch (e) {
       throw DatabaseException('Failed to reset database: $e');
     }
   }
 
-  // Add this method to DatabaseHelper class after the existing methods
+  /// Initialize in-memory database for testing
+  /// @return Future<Database> The in-memory database instance
   Future<Database> _initInMemoryDatabase() async {
     return await openDatabase(
       ':memory:',
@@ -389,7 +431,7 @@ class DatabaseHelper {
   }
 }
 
-// Custom exception for database operations
+/// Custom Database exception for database errors
 class DatabaseException implements Exception {
   final String message;
 

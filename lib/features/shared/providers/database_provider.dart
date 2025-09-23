@@ -20,12 +20,15 @@ Future<Database> database(DatabaseRef ref) async {
 // Database Status Provider 
 @riverpod
 class DatabaseStatus extends _$DatabaseStatus {
+
+  /// Fetches and returns the current status of the database
+  /// Includes initialization status, health check, size, path, and version
   @override
   Future<DatabaseInfo> build() async {
     final helper = ref.watch(databaseHelperProvider);
     
     try {
-      // Get database instance to ensure it's initialized
+      // Get database instance
       final db = await helper.database;
       
       // Get database info
@@ -77,7 +80,9 @@ class DatabaseStatus extends _$DatabaseStatus {
   }
 }
 
-// Database Info Model
+/// Database Information Model
+/// Contains details about the database status, size, path, version, and any errors
+/// Provides helper methods for formatting and displaying database information
 class DatabaseInfo {
   final bool isInitialized;
   final bool isHealthy;

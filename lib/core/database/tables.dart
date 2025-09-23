@@ -1,3 +1,16 @@
+
+/// Database table definitions and related constants
+/// This file defines the structure of the database tables,
+/// including table names, column names, and SQL statements
+/// for creating tables and indexes.
+/// The releationships between tables are:
+/// - Each expense belongs to one category (category_id foreign key in expenses table)
+/// - Each budget is associated with one category (category_id foreign key in budgets table)
+/// - Settings are key-value pairs for app configuration
+/// - Each category can have multiple expenses and budgets
+/// - Deleting a category will restrict deletion if there are associated expenses (ON DELETE RESTRICT)
+/// - Deleting a category will cascade delete associated budgets (ON DELETE CASCADE)
+/// - This structure allows for categorization of expenses, budgeting per category, and flexible app settings management.
 class DatabaseTables {
   // Table Names
   static const String categories = 'categories';
@@ -48,7 +61,7 @@ class DatabaseTables {
     )
   ''';
 
-  // Settings Table (for app preferences)
+  // Settings Table 
   static const String createSettingsTable = '''
     CREATE TABLE $settings (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -59,7 +72,7 @@ class DatabaseTables {
     )
   ''';
 
-  // Indexes for better performance
+  /// Indexes for better performance
   static const List<String> createIndexes = [
     'CREATE INDEX idx_expenses_date ON $expenses(date)',
     'CREATE INDEX idx_expenses_category_id ON $expenses(category_id)',
@@ -73,37 +86,37 @@ class DatabaseTables {
   static const List<Map<String, dynamic>> defaultCategories = [
     {
       'name': 'Food & Dining',
-      'icon_code': 0xe57f, // Icons.restaurant
+      'icon_code': 0xe56c, // Icons.restaurant
       'color_value': 0xFFE57373, // Red
       'is_default': 1,
     },
     {
       'name': 'Transportation',
-      'icon_code': 0xe571, // Icons.directions_car
+      'icon_code': 0xe531, // Icons.directions_car
       'color_value': 0xFF64B5F6, // Blue
       'is_default': 1,
     },
     {
       'name': 'Shopping',
-      'icon_code': 0xe59c, // Icons.shopping_bag
+      'icon_code': 0xe8cc, // Icons.shopping_bag
       'color_value': 0xFFBA68C8, // Purple
       'is_default': 1,
     },
     {
       'name': 'Entertainment',
-      'icon_code': 0xe404, // Icons.movie
+      'icon_code': 0xe02c, // Icons.movie
       'color_value': 0xFFFFB74D, // Orange
       'is_default': 1,
     },
     {
       'name': 'Bills & Utilities',
-      'icon_code': 0xe8e8, // Icons.receipt
+      'icon_code': 0xe9c6, // Icons.receipt
       'color_value': 0xFF4DB6AC, // Teal
       'is_default': 1,
     },
     {
       'name': 'Healthcare',
-      'icon_code': 0xe57e, // Icons.local_hospital
+      'icon_code': 0xe575, // Icons.local_hospital
       'color_value': 0xFF81C784, // Green
       'is_default': 1,
     },
@@ -121,13 +134,13 @@ class DatabaseTables {
     },
     {
       'name': 'Personal Care',
-      'icon_code': 0xe8cc, // Icons.spa
+      'icon_code': 0xeb8c, // Icons.spa
       'color_value': 0xFFAED581, // Light Green
       'is_default': 1,
     },
     {
       'name': 'Other',
-      'icon_code': 0xe8b6, // Icons.more_horiz
+      'icon_code': 0xe5d4, // Icons.more_horiz
       'color_value': 0xFF90A4AE, // Blue Grey
       'is_default': 1,
     },
@@ -166,7 +179,7 @@ class DatabaseTables {
     // ],
   };
 
-  // All table creation statements
+  /// List of all create table statements for initialization
   static const List<String> createTableStatements = [
     createCategoriesTable,
     createExpensesTable,
@@ -174,7 +187,12 @@ class DatabaseTables {
     createSettingsTable,
   ];
 
-  // Views for complex queries
+  // * Views for complex queries *
+
+  /// View to get expenses with their category details
+  /// Includes category name, icon, and color
+  /// Only includes expenses from active categories
+  /// Ordered by expense date descending
   static const String createExpensesWithCategoryView = '''
     CREATE VIEW expenses_with_category AS
     SELECT 
@@ -194,6 +212,11 @@ class DatabaseTables {
     ORDER BY e.date DESC
   ''';
 
+  /// View to get monthly expense summaries per category
+  /// Includes total amount, average amount, and transaction count
+  /// Only includes expenses from active categories
+  /// Ordered by month descending and total amount descending
+  /// Month is in 'YYYY-MM' format
   static const String createMonthlyExpenseSummaryView = '''
     CREATE VIEW monthly_expense_summary AS
     SELECT 
@@ -210,7 +233,7 @@ class DatabaseTables {
     GROUP BY month, category_id
     ORDER BY month DESC, total_amount DESC
   ''';
-
+  /// List of all create view statements for initialization
   static const List<String> createViews = [
     createExpensesWithCategoryView,
     createMonthlyExpenseSummaryView,
