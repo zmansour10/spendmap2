@@ -49,7 +49,7 @@ abstract class Category with _$Category {
 
   const Category._();
 
-  /// Convert to database map (SQLite specific)
+  /// Convert to database map 
   Map<String, dynamic> toDatabase() {
     return {
       if (id != null) 'id': id,
@@ -63,7 +63,7 @@ abstract class Category with _$Category {
     };
   }
 
-  /// Convert to domain entity
+  /// Convert the Category to domain entity
   CategoryEntity toEntity() {
     return CategoryEntity(
       id: id,
@@ -77,7 +77,7 @@ abstract class Category with _$Category {
     );
   }
 
-  /// Create from domain entity
+  /// Create a Category from domain entity
   factory Category.fromEntity(CategoryEntity entity) {
     return Category(
       id: entity.id,
@@ -91,44 +91,60 @@ abstract class Category with _$Category {
     );
   }
 
-  /// Helper getters (delegate to entity logic)
+  // * Helper getters like CategoryEntity *
   IconData get icon => IconData(iconCode, fontFamily: 'MaterialIcons');
   Color get color => Color(colorValue);
   bool get canBeDeleted => !isDefault && isActive;
   bool get canBeEdited => !isDefault;
 }
 
-/// Predefined category templates for easy category creation
+/// Template for creating categories
+class CategoryTemplate {
+  final String name;
+  final int iconCode;
+  final int colorValue;
+
+  const CategoryTemplate({
+    required this.name,
+    required this.iconCode,
+    required this.colorValue,
+  });
+
+  IconData get icon => IconData(iconCode, fontFamily: 'MaterialIcons');
+  Color get color => Color(colorValue);
+}
+
+/// Category templates for easy category creation
 class CategoryTemplates {
   static const List<CategoryTemplate> templates = [
     CategoryTemplate(
       name: 'Food & Dining',
-      iconCode: 0xe57f, // Icons.restaurant
+      iconCode: 0xe56c, // Icons.restaurant
       colorValue: 0xFFE57373, // Red
     ),
     CategoryTemplate(
       name: 'Transportation',
-      iconCode: 0xe571, // Icons.directions_car
+      iconCode: 0xe531, // Icons.directions_car
       colorValue: 0xFF64B5F6, // Blue
     ),
     CategoryTemplate(
       name: 'Shopping',
-      iconCode: 0xe59c, // Icons.shopping_bag
+      iconCode: 0xe8cc, // Icons.shopping_bag
       colorValue: 0xFFBA68C8, // Purple
     ),
     CategoryTemplate(
       name: 'Entertainment',
-      iconCode: 0xe404, // Icons.movie
+      iconCode: 0xe02c, // Icons.movie
       colorValue: 0xFFFFB74D, // Orange
     ),
     CategoryTemplate(
       name: 'Bills & Utilities',
-      iconCode: 0xe8e8, // Icons.receipt
+      iconCode: 0xe9c6, // Icons.receipt
       colorValue: 0xFF4DB6AC, // Teal
     ),
     CategoryTemplate(
       name: 'Healthcare',
-      iconCode: 0xe57e, // Icons.local_hospital
+      iconCode: 0xe575, // Icons.local_hospital
       colorValue: 0xFF81C784, // Green
     ),
     CategoryTemplate(
@@ -143,12 +159,12 @@ class CategoryTemplates {
     ),
     CategoryTemplate(
       name: 'Personal Care',
-      iconCode: 0xe8cc, // Icons.spa
+      iconCode: 0xeb8c, // Icons.spa
       colorValue: 0xFFAED581, // Light Green
     ),
     CategoryTemplate(
       name: 'Gifts & Donations',
-      iconCode: 0xe8e0, // Icons.card_giftcard
+      iconCode: 0xe8f6, // Icons.card_giftcard
       colorValue: 0xFFFFAB91, // Deep Orange Light
     ),
     CategoryTemplate(
@@ -158,7 +174,7 @@ class CategoryTemplates {
     ),
     CategoryTemplate(
       name: 'Other',
-      iconCode: 0xe8b6, // Icons.more_horiz
+      iconCode: 0xe5d4, // Icons.more_horiz
       colorValue: 0xFF90A4AE, // Blue Grey
     ),
   ];
@@ -185,18 +201,3 @@ class CategoryTemplates {
   }
 }
 
-/// Template for creating categories
-class CategoryTemplate {
-  final String name;
-  final int iconCode;
-  final int colorValue;
-
-  const CategoryTemplate({
-    required this.name,
-    required this.iconCode,
-    required this.colorValue,
-  });
-
-  IconData get icon => IconData(iconCode, fontFamily: 'MaterialIcons');
-  Color get color => Color(colorValue);
-}

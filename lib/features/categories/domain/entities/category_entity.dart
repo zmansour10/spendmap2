@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-// * Domain entity representing a category
-// * This is the core business object - no dependencies on external frameworks
+/// Domain entity representing a category
 class CategoryEntity {
   final int? id;
   final String name;
@@ -25,27 +24,25 @@ class CategoryEntity {
 
   // * Business logic methods
   
-  /// Check if category can be deleted
+  /// Check if category can be deleted.
   bool get canBeDeleted => !isDefault && isActive;
-  
-  /// Check if category can be edited
+
+  /// Check if category can be edited.
   bool get canBeEdited => !isDefault;
-  
-  /// Get Flutter Icon from iconCode
+
+  /// Get Flutter Icon from iconCode.
   IconData get icon => IconData(iconCode, fontFamily: 'MaterialIcons');
-  // IconData get icon => IconData(iconCode ?? 0xe14c, fontFamily: 'MaterialIcons'); // helper_outline as default if iconCode is null
-  
-  /// Get Flutter Color from colorValue
+
+  /// Get Flutter Color from colorValue.
   Color get color => Color(colorValue);
-  // Color get color => Color(colorValue ?? 0xFF000000); // Black as default if colorValue is null
-  
-  /// Check if category is system-defined
+
+  /// Check if category is system-defined.
   bool get isSystemCategory => isDefault;
-  
-  /// Check if category is user-created
+
+  /// Check if category is user-created.
   bool get isUserCategory => !isDefault;
 
-  /// Create a copy with modified properties
+  /// Create a copy of the current entity with updated fields.
   CategoryEntity copyWith({
     int? id,
     String? name,
@@ -68,7 +65,7 @@ class CategoryEntity {
     );
   }
 
-  /// Create inactive (soft deleted) copy
+  /// Create inactive copy
   CategoryEntity deactivate() {
     return copyWith(
       isActive: false,

@@ -30,7 +30,7 @@ class CategoryLocalDataSource {
         DatabaseTables.categories,
         where: 'is_active = ?',
         whereArgs: [1],
-        orderBy: 'is_default DESC, name ASC', // Default categories first
+        orderBy: 'is_default DESC, name ASC', 
       );
       
       return result.map((map) => Category.fromDatabase(map)).toList();
@@ -145,7 +145,6 @@ class CategoryLocalDataSource {
         category.toDatabase(),
       );
       
-      // Return category with generated ID
       return category.copyWith(id: id);
     } catch (e) {
       throw CategoryDataSourceException('Failed to insert category: $e');
@@ -178,7 +177,7 @@ class CategoryLocalDataSource {
     }
   }
 
-  /// Soft delete category (set inactive)
+  /// Soft delete category (inactive)
   Future<void> deleteCategory(int id) async {
     try {
       final rowsAffected = await _databaseHelper.update(
@@ -235,7 +234,6 @@ class CategoryLocalDataSource {
         throw CategoryDataSourceException('Category not found for restoration');
       }
 
-      // Return updated category
       final category = await getCategoryById(id);
       if (category == null) {
         throw CategoryDataSourceException('Failed to retrieve restored category');
@@ -273,6 +271,8 @@ class CategoryLocalDataSource {
   }
 
   /// Check if category has expenses
+  /// Used to prevent deletion of categories in use
+  /// Returns true if there are expenses linked to the category
   Future<bool> categoryHasExpenses(int id) async {
     try {
       final result = await _databaseHelper.query(
@@ -313,7 +313,7 @@ class CategoryLocalDataSource {
     }
   }
 
-  /// Bulk insert categories
+  /// Bulk insert categories.
   Future<List<Category>> bulkInsertCategories(List<Category> categories) async {
     try {
       return await _databaseHelper.transaction<List<Category>>((txn) async {
@@ -361,7 +361,7 @@ class CategoryLocalDataSource {
     try {
       if (ids.isEmpty) return;
       
-      final placeholders = List.filled(ids.length, '?').join(',');
+      final placeholders = List.filled(ids.length, '?').join(','); 
       
       await _databaseHelper.update(
         DatabaseTables.categories,

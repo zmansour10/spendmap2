@@ -1,7 +1,6 @@
 import '../entities/category_entity.dart';
 
 /// Abstract repository interface defining category operations
-/// This belongs to domain layer - no implementation details
 abstract class CategoryRepository {
   /// Get all active categories
   Future<List<CategoryEntity>> getAllCategories();
@@ -57,6 +56,6 @@ abstract class CategoryRepository {
   Future<void> bulkUpdateCategories(List<CategoryEntity> categories);
   Future<void> bulkDeleteCategories(List<int> ids);
   
-  /// Reset to default categories (for settings)
+  /// Reset to default categories
   Future<void> resetToDefaultCategories();
 }

@@ -4,7 +4,7 @@ import '../data_sources/category_local_data_source.dart';
 import '../models/category.dart';
 
 /// Implementation of CategoryRepository using local data source
-/// Converts between domain entities and data models
+/// Converts between domain entities and data models 
 class CategoryRepositoryImpl implements CategoryRepository {
   final CategoryLocalDataSource _localDataSource;
 
