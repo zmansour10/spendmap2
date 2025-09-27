@@ -37,7 +37,6 @@ class Categories extends _$Categories {
     try {
       final newCategory = await repository.createCategory(category);
       
-      // Refresh the list to include the new category
       ref.invalidateSelf();
       
       return newCategory;
@@ -53,8 +52,7 @@ class Categories extends _$Categories {
     try {
       final updatedCategory = await repository.updateCategory(category);
       
-      // Update the local state optimistically
-      final currentState = state.valueOrNull ?? [];
+      final currentState = state.valueOrNull ?? []; 
       final updatedList = currentState.map((cat) {
         return cat.id == category.id ? updatedCategory : cat;
       }).toList();
@@ -63,7 +61,6 @@ class Categories extends _$Categories {
       
       return updatedCategory;
     } catch (e) {
-      // Refresh on error to get correct state
       ref.invalidateSelf();
       rethrow;
     }
@@ -76,12 +73,10 @@ class Categories extends _$Categories {
     try {
       await repository.deleteCategory(categoryId);
       
-      // Remove from local state optimistically
       final currentState = state.valueOrNull ?? [];
       final updatedList = currentState.where((cat) => cat.id != categoryId).toList();
       state = AsyncValue.data(updatedList);
     } catch (e) {
-      // Refresh on error
       ref.invalidateSelf();
       rethrow;
     }
@@ -94,7 +89,6 @@ class Categories extends _$Categories {
     try {
       final restoredCategory = await repository.restoreCategory(categoryId);
       
-      // Refresh to get updated state
       ref.invalidateSelf();
       
       return restoredCategory;
@@ -110,7 +104,6 @@ class Categories extends _$Categories {
     try {
       await repository.bulkDeleteCategories(categoryIds);
       
-      // Remove from local state
       final currentState = state.valueOrNull ?? [];
       final updatedList = currentState
           .where((cat) => !categoryIds.contains(cat.id))
@@ -135,7 +128,7 @@ class Categories extends _$Categories {
   }
 }
 
-// Active Categories Provider (most commonly used)
+// Active Categories Provider
 @riverpod
 Future<List<CategoryEntity>> activeCategories(ActiveCategoriesRef ref) async {
   final repository = ref.watch(categoryRepositoryProvider);
@@ -177,7 +170,7 @@ Future<CategoryEntity?> categoryByName(CategoryByNameRef ref, String categoryNam
   return await repository.getCategoryByName(categoryName);
 }
 
-// Search Categories Provider (Family)
+// Search Categories Provider
 @riverpod
 Future<List<CategoryEntity>> searchCategories(SearchCategoriesRef ref, String query) async {
   final repository = ref.watch(categoryRepositoryProvider);
@@ -194,14 +187,14 @@ Future<int> categoryCount(CategoryCountRef ref, {bool includeInactive = false}) 
   return await repository.getCategoriesCount(includeInactive: includeInactive);
 }
 
-// Category Name Exists Provider (Family)
+// Category Name Exists Provider
 @riverpod
 Future<bool> categoryNameExists(CategoryNameExistsRef ref, String categoryName, {int? excludeId}) async {
   final repository = ref.watch(categoryRepositoryProvider);
   return await repository.categoryNameExists(categoryName, excludeId: excludeId);
 }
 
-// Category Has Expenses Provider (Family)
+// Category Has Expenses Provider
 @riverpod
 Future<bool> categoryHasExpenses(CategoryHasExpensesRef ref, int categoryId) async {
   final repository = ref.watch(categoryRepositoryProvider);
@@ -291,7 +284,6 @@ class CategoryOperations extends _$CategoryOperations {
     }
   }
 
-  /// Clear operation result
   void clearResult() {
     state = const AsyncValue.data(null);
   }
