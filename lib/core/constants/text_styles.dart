@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppTextStyles {
   // Font Family
-  static const String fontFamily = 'System'; // Uses system font
+  static const String fontFamily = 'System'; 
   
   // Base Text Styles
   static const TextStyle _baseStyle = TextStyle(

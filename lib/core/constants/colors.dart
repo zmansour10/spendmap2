@@ -41,7 +41,7 @@ class AppColors {
   static const Color error = Color(0xFFE53935);
   static const Color info = Color(0xFF2196F3);
   
-  // Category Colors (for expense categories)
+  // Category Colors 
   static const List<Color> categoryColors = [
     Color(0xFFE57373), // Red
     Color(0xFFBA68C8), // Purple
@@ -90,7 +90,7 @@ class AppColors {
   static const Color shadowLight = Color(0x1F000000);
   static const Color shadowDark = Color(0x3F000000);
   
-  // Helper method to get color by index (useful for categories)
+  // Helper method to get color by index
   static Color getCategoryColor(int index) {
     return categoryColors[index % categoryColors.length];
   }
